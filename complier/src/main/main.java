@@ -6,8 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import lex.digital;
-import lex.operation;
+import lex.Lex;
+
 
 public class main {
 	
@@ -16,8 +16,9 @@ public class main {
 	
 	public static void main(String args[]) {
 	 a = read();
-	 digital o = new digital();
-	 o.handle();
+	 Lex lex = new Lex();
+	 lex.init(a);
+	 lex.run();
 	}
 	
 	public static String read() {
@@ -61,3 +62,4 @@ public class main {
 	}
 
 }
+

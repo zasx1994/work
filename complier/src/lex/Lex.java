@@ -10,8 +10,7 @@ public class Lex {
 	
 	public void init(String a) {
 		this.a = a;
-		this.index = -1;
-		this.preindex = 0;
+		this.preindex = -1;
 		this.digital = new digital();
 		this.operation = new operation();
 		this.state = 0;
@@ -22,12 +21,28 @@ public class Lex {
 		while(true) {
 			switch(state){
 			case 0:
-				char c = a.charAt(preindex);
+				char c = nextprechar();
 				if(isdigital(c))state = 1;
 				else if(isoperation(c))state = 2;
 				else if(iswhitespace(c))state =3;
 				else if(c==16)return;
 				break;
+			case 1:
+				digital.handle();
+				preindex = index;
+				state = 0;
+				break;
+			case 2:
+				operation.handle();
+				preindex = index;
+				state = 0;
+				break;
+			case 3:
+				c = nextchar();
+				if(!iswhitespace(c)) {
+					state = 0;
+					back();}
+			    break;
 			};
 		}	
 	}
@@ -59,12 +74,23 @@ public class Lex {
 	}
 	
 	private boolean iswhitespace(char c) {
-		char[] accept = {'\n','\t',0};
+		char[] accept = {'\n','\t',' '};
 		for(int i=0;i<accept.length;i++) {
 			if(c==accept[i])
 				return true;
 		};
 		return false;
+	}
+	
+	public static char nextprechar() {
+		try {
+			preindex++;
+			char b = a.charAt(preindex);
+			return b;
+			}
+			catch(Exception e){
+				return 16;
+			}	
 	}
 	
 	
